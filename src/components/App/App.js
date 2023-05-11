@@ -44,7 +44,7 @@ function angry(){
       <div>
 
         <header>
-              <input>Search Bar</input>
+              <input><Link to='/api/category'>Search Bar</Link></input>
               <p>Fav's</p> 
             <nav>
               <button><Link to='/'>❤️‍🔥</Link></button>
@@ -58,6 +58,7 @@ function angry(){
 
         <div>
           <Route exact path ='/' Component={FavoritesPage} />
+          <Route exact path ='/api/category' Component={GalleryList} />
         </div>
 
       </div>
