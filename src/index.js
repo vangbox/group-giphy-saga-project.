@@ -20,6 +20,22 @@ const gallery = ((state=[], action) => {
 const favorites = ((state=[], action) => {
     return state;
 })
+searchGifs('cheesburgers')
+function* searchGifs(userQuery) {
+    try{
+        const response = yield axios({
+            method: 'GET',
+            url:`/api/search?search=${userQuery}`
+        })
+        console.log("This is the response from Giphy:", response.data);
+    } catch(error) {
+        console.log("Error with GET req to server:", error);
+    }
+}
+function* rootSaga() {
+
+    yield takeLatest('SAGA/SEARCH_GIFS', searchGifs)
+}
 
 const store = createStore(
     combineReducers({
@@ -28,6 +44,7 @@ const store = createStore(
     applyMiddleware(SagaMiddleware, logger)
 )
 
+sagaMiddleware.run(rootSaga);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
