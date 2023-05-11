@@ -112,14 +112,36 @@ const favorites = ((state=[], action) => {
 })
 
 
-//Redux Store
+function* searchGifs(action) {
+    try{
+        const response = yield axios({
+            method: 'GET',
+            url:`/api/search?search=${action.payload}`
+        })
+        console.log("This is the response from Giphy:", response.data);
+
+        yield put({
+            type: 'FETCH_GALLERY',
+            payload: response.data
+        })
+    } catch(error) {
+        console.log("Error with GET req to server:", error);
+    }
+}
+function* rootSaga() {
+
+    yield takeLatest('SAGA/SEARCH_GIFS', searchGifs)
+}
+
 const store = createStore(
     combineReducers({
-
+        gallery,
+        favorites
     }),
-    applyMiddleware(SagaMiddleware, logger)
+    applyMiddleware(sagaMiddleware, logger)
 )
 
+sagaMiddleware.run(rootSaga);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
