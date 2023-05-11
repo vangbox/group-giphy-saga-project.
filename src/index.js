@@ -14,6 +14,9 @@ import logger from 'redux-logger';
 import {BrowserRouter} from 'react-router-dom';
 
 const gallery = ((state=[], action) => {
+    if (action.type === 'FETCH_GALLERY') {
+        return action.payload;
+    }
     return state;
 })
 
@@ -31,6 +34,11 @@ function* searchGifs(action) {
             url:`/api/search?search=${action.payload}`
         })
         console.log("This is the response from Giphy:", response.data);
+
+        yield put({
+            type: 'FETCH_GALLERY',
+            payload: response.data
+        })
     } catch(error) {
         console.log("Error with GET req to server:", error);
     }
@@ -42,7 +50,8 @@ function* rootSaga() {
 
 const store = createStore(
     combineReducers({
-
+        gallery,
+        favorites
     }),
     applyMiddleware(sagaMiddleware, logger)
 )

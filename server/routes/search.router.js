@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
     axios({
         method: 'GET',
         url: gifURL
-    }).then((res) => {
-        res.send(res.data.data)
-        console.log("Gifs:", res.data.data);
+    }).then((response) => {
+        res.send(response.data.data)
+        console.log("Gifs:", response.data.data);
     }).catch((err) => {
         console.log("Error connecting with GIPHY API:", err);
     })
