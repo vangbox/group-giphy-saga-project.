@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import App from './components/App/App';
 //Saga Imports
 import {takeLatest, put} from 'redux-saga/effects';
-import SagaMiddleware from 'redux-saga';
+import createSagaMiddleware from 'redux-saga';
 import axios from 'axios';
 //Redux Imports
 import {Provider} from 'react-redux';
@@ -20,12 +20,15 @@ const gallery = ((state=[], action) => {
 const favorites = ((state=[], action) => {
     return state;
 })
-searchGifs('cheesburgers')
-function* searchGifs(userQuery) {
+
+const sagaMiddleware = createSagaMiddleware();
+
+
+function* searchGifs(action) {
     try{
         const response = yield axios({
             method: 'GET',
-            url:`/api/search?search=${userQuery}`
+            url:`/api/search?search=${action.payload}`
         })
         console.log("This is the response from Giphy:", response.data);
     } catch(error) {
@@ -41,7 +44,7 @@ const store = createStore(
     combineReducers({
 
     }),
-    applyMiddleware(SagaMiddleware, logger)
+    applyMiddleware(sagaMiddleware, logger)
 )
 
 sagaMiddleware.run(rootSaga);
@@ -49,8 +52,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </Provider>
     </React.StrictMode>
 );
