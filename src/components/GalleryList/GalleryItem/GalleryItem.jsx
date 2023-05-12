@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function GalleryItem() {
+function GalleryItem(props) {
 
     const [isFavorite, setFavorite] = useState(false);
 
@@ -11,10 +11,13 @@ function GalleryItem() {
             setFavorite(true)
         }
     }
+    let gif = props.gif;
+
+    let gif_url = gif.images.original.url;
 
     return (
         <div>
-            <h1>Gif here</h1>
+            <img src={gif_url}></img>
             <button onClick={toggleFavorite}>FAVE</button>
         </div>
     )

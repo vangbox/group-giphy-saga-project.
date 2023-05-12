@@ -26,23 +26,23 @@ function* rootSaga() {
 }
 
 //Saga Functions
-function* getGallery() {
-    try {
-        const response = yield axios({
-            method: 'GET',
-            url: '/api/gallery'
-        })
+// function* getGallery() {
+//     try {
+//         const response = yield axios({
+//             method: 'GET',
+//             url: '/api/gallery'
+//         })
 
-        const gallery = response.data;
+//         const gallery = response.data;
 
-        yield put({
-            type: 'FETCH_GALLERY',
-            payload: gallery
-        })
-    } catch (error) {
-        console.log('Saga getGallery failed');
-    }
-}
+//         yield put({
+//             type: 'FETCH_GALLERY',
+//             payload: gallery
+//         })
+//     } catch (error) {
+//         console.log('Saga getGallery failed');
+//     }
+// }
 
 function* getFavorites() {
     try {
@@ -95,9 +95,10 @@ function* deleteFavorite(action) {
 
 //Redux Reducers
 const gallery = ((state=[], action) => {
+    console.log(action.payload)
     switch(action.type) {
         case 'FETCH_GALLERY':
-            return [...state, action.payload];
+            return action.payload;
         default:
             return state;
     }
@@ -112,13 +113,13 @@ const favorites = ((state=[], action) => {
 })
 
 
-function* searchGifs(action) {
+function* getGallery(action) {
     try{
         const response = yield axios({
             method: 'GET',
             url:`/api/search?search=${action.payload}`
         })
-        console.log("This is the response from Giphy:", response.data);
+        console.log("This is the response from Giphy:", response);
 
         yield put({
             type: 'FETCH_GALLERY',
@@ -127,10 +128,6 @@ function* searchGifs(action) {
     } catch(error) {
         console.log("Error with GET req to server:", error);
     }
-}
-function* rootSaga() {
-
-    yield takeLatest('SAGA/SEARCH_GIFS', searchGifs)
 }
 
 const store = createStore(

@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const axios = require('axios');
 const router = express.Router();
-const GIPHY_API_KEY = require('dotenv').config()
+require('dotenv').config()
 
 // const gifURL = `api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${userQuery}s&limit=5`
 
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
         url: gifURL
     }).then((response) => {
         res.send(response.data.data)
-        console.log("Gifs:", response.data.data);
+        console.log("Gifs:", response.data);
     }).catch((err) => {
         console.log("Error connecting with GIPHY API:", err);
     })

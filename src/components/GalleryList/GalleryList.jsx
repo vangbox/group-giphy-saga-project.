@@ -1,28 +1,35 @@
 import { useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import GalleryItem from './GalleryItem/GalleryItem.jsx';
 
 function GalleryList() {
+    const dispatch = useDispatch();
+    const gallery = useSelector(store => store.gallery)
 
     useEffect(() => {
-        getGifs();
+        getGallery();
     }, []);
 
     // for Saga:
-    const getGifs = () => {
-        dispatchEvent({
-            type: 'GET_GALLERY'
+    const getGallery = () => {
+        dispatch({
+            type: 'GET_GALLERY',
+            payload: 'cheeseburger'
         })
     }
+
+    // console.log('THIS IS THE GALLERY', gallery);
 
     return (
         <div>
             <h1>Gallery List:</h1>
 
             {
-                gifList.map((gif) => {
+                gallery.map((gif) => {
                     return (
-                        <GalleryItem />
+                        <GalleryItem 
+                            gif={gif}
+                        />
                     )
                 })
             }

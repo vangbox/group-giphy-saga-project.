@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 // App PORT set with production check
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Route includes
 const favoriteRouter = require('./routes/favorite.router');
